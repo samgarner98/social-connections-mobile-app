@@ -65,7 +65,7 @@ const GoalCompleteScreen = ({route}) => {
 
     const playAudio = async () => {
       const { sound: playbackObject } = await Audio.Sound.createAsync(
-       require('/Users/samgarner/Documents/project/brainhealth/assets/zapsplat_multimedia_game_sound_bright_sparkle_twinkle_tone_positive_award_achievement_001_40543.mp3') ,
+       require('/Users/samgarner/Documents/project/brainhealth/assets/goal-award-sound.mp3') ,
         { shouldPlay: true }
       );
       
