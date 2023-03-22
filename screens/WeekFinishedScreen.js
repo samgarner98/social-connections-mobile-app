@@ -155,11 +155,11 @@ const WeekFinishedScreen = ({route}) => {
         {goalCompletion.goalOne == true && goalCompletion.goalTwo == true && goalCompletion.goalThree == true ? 
          <View>
             <Text style = {styles.trophyText}>Well Done! You earned a {userInterest} by completing all the goals</Text>
-            {userInterest == 'flower' ? <Lottie source={require('/Users/samgarner/Documents/project/brainhealth/assets/24970-rose-flower-sparks.json')} autoPlay loop style = {styles.trophy} />
+            {userInterest == 'flower' ? <Lottie source={require('../assets/24970-rose-flower-sparks.json')} autoPlay loop style = {styles.trophy} />
  : <Text></Text>}
-        {userInterest == 'trophy' ? <Lottie source={require('/Users/samgarner/Documents/project/brainhealth/assets/lf20_touohxv0.json')} autoPlay loop = {false} style = {styles.trophy} />
+        {userInterest == 'trophy' ? <Lottie source={require('../assets/lf20_touohxv0.json')} autoPlay loop = {false} style = {styles.trophy} />
         : <Text></Text>}
-        {userInterest == 'book' ? <Lottie source={require('/Users/samgarner/Documents/project/brainhealth/assets/72170-books.json')} autoPlay loop  style = {styles.trophy} />
+        {userInterest == 'book' ? <Lottie source={require('../assets/72170-books.json')} autoPlay loop  style = {styles.trophy} />
         : <Text></Text>}            
          {progress > 0 ? <Text style = {styles.trophyText}>You also performed better than expected. You have made great progress!</Text>: <Text></Text>}
             {progress == 0 ? <Text style = {styles.trophyText}>You performed very well and completed the goals as expected. Keep up the great work!</Text>: <Text></Text>}
@@ -167,7 +167,7 @@ const WeekFinishedScreen = ({route}) => {
 
 
          </View>: <Text></Text>}
-         <Lottie source={require('/Users/samgarner/Documents/project/brainhealth/assets/33645-happy-dog.json')} autoPlay loop style = {styles.dog} />
+         <Lottie source={require('../assets/33645-happy-dog.json')} autoPlay loop style = {styles.dog} />
 
          {completion == 2 ? 
          <View>

@@ -65,7 +65,7 @@ const GoalCompleteScreen = ({route}) => {
 
     const playAudio = async () => {
       const { sound: playbackObject } = await Audio.Sound.createAsync(
-       require('/Users/samgarner/Documents/project/brainhealth/assets/goal-award-sound.mp3') ,
+       require('../assets/goal-award-sound.mp3') ,
         { shouldPlay: true }
       );
       
@@ -97,7 +97,7 @@ const GoalCompleteScreen = ({route}) => {
     <SafeAreaView style = {styles.background}>
       <View style = {styles.View} >
             <Text style = {styles.wellDone}>Well Done!</Text>
-            <Lottie source={require('/Users/samgarner/Documents/project/brainhealth/assets/14595-thumbs-up.json')} autoPlay loop style = {styles.trophy} />
+            <Lottie source={require('../assets/14595-thumbs-up.json')} autoPlay loop style = {styles.trophy} />
             <View style={styles.progress}>
             <Progress.Bar progress={goalCompletion} width={300}  height={15} borderWidth={2} unfilledColor={'white'} position={'absolute'} top={4}  animationType={'timing'} />
             <FontAwesomeIcon icon={faTrophy} style = {styles.Icons} size={ 30 } position={'absolute'}/>

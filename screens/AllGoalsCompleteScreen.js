@@ -84,7 +84,7 @@ const AllGoalsCompleteScreen = () => {
           <Text style = {styles.subtitle}>Well Done!</Text>
           <Text style = {styles.text}>You have completed all of this week's goals and earned a trophy!</Text>
      
-          <Lottie source={require('/Users/samgarner/Documents/project/brainhealth/assets/lf20_touohxv0.json')} autoPlay loop={false} style = {styles.trophy} />
+          <Lottie source={require('../assets/lf20_touohxv0.json')} autoPlay loop={false} style = {styles.trophy} />
 
           <Text style = {styles.time}>New goals will be available in:</Text>
           <Text style = {styles.timeTwo}>{7 - time} day(s) </Text>

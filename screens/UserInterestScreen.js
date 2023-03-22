@@ -49,7 +49,7 @@ const UserInterest = () => {
 
         <View style = {styles.dogView}>
 
-        <Lottie source={require('/Users/samgarner/Documents/project/brainhealth/assets/33645-happy-dog.json')} autoPlay loop style = {styles.dog} />
+        <Lottie source={require('../assets/33645-happy-dog.json')} autoPlay loop style = {styles.dog} />
 
         </View>
         <TouchableOpacity style = {styles.addPerson} onPress = {() => setInterest("trophy")}>

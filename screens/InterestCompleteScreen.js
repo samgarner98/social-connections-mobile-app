@@ -64,7 +64,7 @@ const InterestCompleteScreen = ({route}) => {
   
       const playAudio = async () => {
         const { sound: playbackObject } = await Audio.Sound.createAsync(
-         require('/Users/samgarner/Documents/project/brainhealth/assets/trophy-sound.mp3') ,
+         require('../assets/trophy-sound.mp3') ,
           { shouldPlay: true }
         );
         
@@ -98,14 +98,14 @@ const InterestCompleteScreen = ({route}) => {
 
         <View style = {styles.dogView}>
 
-        {choice == 'flower' ? <Lottie source={require('/Users/samgarner/Documents/project/brainhealth/assets/24970-rose-flower-sparks.json')} autoPlay loop style = {styles.flower} />
+        {choice == 'flower' ? <Lottie source={require('../assets/24970-rose-flower-sparks.json')} autoPlay loop style = {styles.flower} />
  : <Text></Text>}
-        {choice == 'trophy' ? <Lottie source={require('/Users/samgarner/Documents/project/brainhealth/assets/lf20_touohxv0.json')} autoPlay loop style = {styles.flower} />
+        {choice == 'trophy' ? <Lottie source={require('../assets/lf20_touohxv0.json')} autoPlay loop style = {styles.flower} />
         : <Text></Text>}
-        {choice == 'book' ? <Lottie source={require('/Users/samgarner/Documents/project/brainhealth/assets/72170-books.json')} autoPlay loop = {false} style = {styles.flower} />
+        {choice == 'book' ? <Lottie source={require('../assets/72170-books.json')} autoPlay loop = {false} style = {styles.flower} />
         : <Text></Text>}
 
-        <Lottie source={require('/Users/samgarner/Documents/project/brainhealth/assets/33645-happy-dog.json')} autoPlay loop style = {styles.dog} />
+        <Lottie source={require('../assets/33645-happy-dog.json')} autoPlay loop style = {styles.dog} />
 
         </View>
         <TouchableOpacity style = {styles.addPerson} onPress = {() => navigation.navigate("Start Ratings Screen")} >

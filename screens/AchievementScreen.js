@@ -69,11 +69,11 @@ const AchievementScreen = () => {
           </View>
           <Text style = {styles.earned}>You have earned</Text>
 
-          {userInterest == 'flower' ? <Lottie source={require('/Users/samgarner/Documents/project/brainhealth/assets/24970-rose-flower-sparks.json')} autoPlay loop style = {styles.flower} />
+          {userInterest == 'flower' ? <Lottie source={require('../assets/24970-rose-flower-sparks.json')} autoPlay loop style = {styles.flower} />
  : <Text></Text>}
-        {userInterest == 'trophy' ? <Lottie source={require('/Users/samgarner/Documents/project/brainhealth/assets/lf20_touohxv0.json')} autoPlay loop = {false} style = {styles.flower} />
+        {userInterest == 'trophy' ? <Lottie source={require('../assets/lf20_touohxv0.json')} autoPlay loop = {false} style = {styles.flower} />
         : <Text></Text>}
-        {userInterest == 'book' ? <Lottie source={require('/Users/samgarner/Documents/project/brainhealth/assets/72170-books.json')} autoPlay loop  style = {styles.book} />
+        {userInterest == 'book' ? <Lottie source={require('../assets/72170-books.json')} autoPlay loop  style = {styles.book} />
         : <Text></Text>}    
 
 
