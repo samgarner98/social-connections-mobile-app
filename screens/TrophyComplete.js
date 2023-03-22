@@ -110,11 +110,11 @@ const TrophyComplete = ({route}) => {
     <SafeAreaView style = {styles.background}>
       <View style = {styles.View} >
             <Text style = {styles.wellDone}>Congratulations!</Text>
-            {userInterest == 'flower' ? <Lottie source={require('/Users/samgarner/Documents/project/brainhealth/assets/24970-rose-flower-sparks.json')} autoPlay loop style = {styles.trophy} />
+            {userInterest == 'flower' ? <Lottie source={require('../assets/24970-rose-flower-sparks.json')} autoPlay loop style = {styles.trophy} />
  : <Text></Text>}
-        {userInterest == 'trophy' ? <Lottie source={require('/Users/samgarner/Documents/project/brainhealth/assets/lf20_touohxv0.json')} autoPlay loop = {false} style = {styles.trophy} />
+        {userInterest == 'trophy' ? <Lottie source={require('../assets/lf20_touohxv0.json')} autoPlay loop = {false} style = {styles.trophy} />
         : <Text></Text>}
-        {userInterest == 'book' ? <Lottie source={require('/Users/samgarner/Documents/project/brainhealth/assets/72170-books.json')} autoPlay loop  style = {styles.trophy} />
+        {userInterest == 'book' ? <Lottie source={require('../assets/72170-books.json')} autoPlay loop  style = {styles.trophy} />
         : <Text></Text>}                
             
             <Text style = {styles.progressTitle}>You have completed all of this weeks goals and earned a {userInterest}!</Text>
