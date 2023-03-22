@@ -21,7 +21,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.samgarner98.socialconnectionsmobileapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -30,7 +31,8 @@
       },
       "permissions": [
         "android.permission.RECORD_AUDIO"
-      ]
+      ],
+      "package": "com.samgarner98.socialconnectionsmobileapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"

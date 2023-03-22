@@ -1,0 +1,302 @@
+{
+    "geocoded_waypoints" : [
+       {
+          "geocoder_status" : "OK",
+          "partial_match" : true,
+          "place_id" : "ChIJs2n0CtJFiEgRg0leZQti8KM",
+          "types" : [ "establishment", "point_of_interest", "university" ]
+       },
+       {
+          "geocoder_status" : "OK",
+          "partial_match" : true,
+          "place_id" : "ChIJtaRY9h1EiEgRvq3jwDM9FGA",
+          "types" : [ "establishment", "point_of_interest", "university" ]
+       }
+    ],
+    "routes" : [
+       {
+          "bounds" : {
+             "northeast" : {
+                "lat" : 55.8720344,
+                "lng" : -4.247275999999999
+             },
+             "southwest" : {
+                "lat" : 55.8612219,
+                "lng" : -4.2855206
+             }
+          },
+          "copyrights" : "Map data ©2023",
+          "legs" : [
+             {
+                "distance" : {
+                   "text" : "3.2 km",
+                   "value" : 3231
+                },
+                "duration" : {
+                   "text" : "40 mins",
+                   "value" : 2391
+                },
+                "end_address" : "16 Richmond St, Glasgow G1 1XQ, UK",
+                "end_location" : {
+                   "lat" : 55.8612219,
+                   "lng" : -4.247275999999999
+                },
+                "start_address" : "Glasgow G12 8QQ, UK",
+                "start_location" : {
+                   "lat" : 55.8720344,
+                   "lng" : -4.2855206
+                },
+                "steps" : [
+                   {
+                      "distance" : {
+                         "text" : "30 m",
+                         "value" : 30
+                      },
+                      "duration" : {
+                         "text" : "1 min",
+                         "value" : 19
+                      },
+                      "end_location" : {
+                         "lat" : 55.8719844,
+                         "lng" : -4.2850467
+                      },
+                      "html_instructions" : "Walk \u003cb\u003eeast\u003c/b\u003e on \u003cb\u003eUniversity Ave\u003c/b\u003e towards \u003cb\u003eKelvin Way\u003c/b\u003e",
+                      "polyline" : {
+                         "points" : "eo_tIn_dYFmA?G@G"
+                      },
+                      "start_location" : {
+                         "lat" : 55.8720344,
+                         "lng" : -4.2855206
+                      },
+                      "travel_mode" : "WALKING"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "53 m",
+                         "value" : 53
+                      },
+                      "duration" : {
+                         "text" : "1 min",
+                         "value" : 46
+                      },
+                      "end_location" : {
+                         "lat" : 55.8715282,
+                         "lng" : -4.285249299999999
+                      },
+                      "html_instructions" : "Turn \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eKelvin Way\u003c/b\u003e",
+                      "maneuver" : "turn-right",
+                      "polyline" : {
+                         "points" : "{n_tIp|cYF?FAD@D?F@XPZR"
+                      },
+                      "start_location" : {
+                         "lat" : 55.8719844,
+                         "lng" : -4.2850467
+                      },
+                      "travel_mode" : "WALKING"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "0.5 km",
+                         "value" : 489
+                      },
+                      "duration" : {
+                         "text" : "6 mins",
+                         "value" : 361
+                      },
+                      "end_location" : {
+                         "lat" : 55.8678216,
+                         "lng" : -4.282788399999999
+                      },
+                      "html_instructions" : "Turn \u003cb\u003eleft\u003c/b\u003e",
+                      "maneuver" : "turn-left",
+                      "polyline" : {
+                         "points" : "al_tIx}cYFYBGDCF?F?HBJ@JB|@^HDD?B@BADADC\\]DIDQ`@kD@EFIFCNCJCF?B?H?H?H?F@N@TBP@XBLANALCPENENENIJEFGBEFGHKVi@\\i@TWHKFGVQFEHEJGHCDCDA"
+                      },
+                      "start_location" : {
+                         "lat" : 55.8715282,
+                         "lng" : -4.285249299999999
+                      },
+                      "travel_mode" : "WALKING"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "0.3 km",
+                         "value" : 263
+                      },
+                      "duration" : {
+                         "text" : "3 mins",
+                         "value" : 204
+                      },
+                      "end_location" : {
+                         "lat" : 55.8668091,
+                         "lng" : -4.2789978
+                      },
+                      "html_instructions" : "Turn \u003cb\u003eleft\u003c/b\u003e",
+                      "maneuver" : "turn-left",
+                      "polyline" : {
+                         "points" : "{t~sIlncYL{@`@sClAoIHg@H[H[Pm@ZgA"
+                      },
+                      "start_location" : {
+                         "lat" : 55.8678216,
+                         "lng" : -4.282788399999999
+                      },
+                      "travel_mode" : "WALKING"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "0.1 km",
+                         "value" : 108
+                      },
+                      "duration" : {
+                         "text" : "1 min",
+                         "value" : 73
+                      },
+                      "end_location" : {
+                         "lat" : 55.8658458,
+                         "lng" : -4.278777799999999
+                      },
+                      "html_instructions" : "Turn \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eClifton St\u003c/b\u003e",
+                      "maneuver" : "turn-right",
+                      "polyline" : {
+                         "points" : "qn~sIvvbYnAQjAQb@G"
+                      },
+                      "start_location" : {
+                         "lat" : 55.8668091,
+                         "lng" : -4.2789978
+                      },
+                      "travel_mode" : "WALKING"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "1.6 km",
+                         "value" : 1641
+                      },
+                      "duration" : {
+                         "text" : "21 mins",
+                         "value" : 1236
+                      },
+                      "end_location" : {
+                         "lat" : 55.8640961,
+                         "lng" : -4.2530233
+                      },
+                      "html_instructions" : "Turn \u003cb\u003eleft\u003c/b\u003e onto \u003cb\u003eSauchiehall St\u003c/b\u003e",
+                      "maneuver" : "turn-left",
+                      "polyline" : {
+                         "points" : "qh~sIjubYI{DEy@GwBIaCCmAEgAOoFCoAIiCIeDAOAQ?SAU?WAq@A_@?[?U@]@]@K@o@FeAt@{LFeAb@wGd@qI`@aHHmAJ{ALyBF}@XcFT{DL}Bb@kHN}BD}@NmCJ_BV{DL}B@KFaA@KDEBADC"
+                      },
+                      "start_location" : {
+                         "lat" : 55.8658458,
+                         "lng" : -4.278777799999999
+                      },
+                      "travel_mode" : "WALKING"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "0.2 km",
+                         "value" : 244
+                      },
+                      "duration" : {
+                         "text" : "3 mins",
+                         "value" : 156
+                      },
+                      "end_location" : {
+                         "lat" : 55.8619322,
+                         "lng" : -4.2535602
+                      },
+                      "html_instructions" : "Continue onto \u003cb\u003eBuchanan St\u003c/b\u003e",
+                      "polyline" : {
+                         "points" : "s}}sIjt}XbAQBA|@Tf@Lz@Rb@JfAZdAVTF"
+                      },
+                      "start_location" : {
+                         "lat" : 55.8640961,
+                         "lng" : -4.2530233
+                      },
+                      "travel_mode" : "WALKING"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "0.2 km",
+                         "value" : 150
+                      },
+                      "duration" : {
+                         "text" : "2 mins",
+                         "value" : 106
+                      },
+                      "end_location" : {
+                         "lat" : 55.8617097,
+                         "lng" : -4.2512396
+                      },
+                      "html_instructions" : "Take the pedestrian overpass",
+                      "polyline" : {
+                         "points" : "ap}sIvw}XEIAKL_CHmAJeBF}@FgA"
+                      },
+                      "start_location" : {
+                         "lat" : 55.8619322,
+                         "lng" : -4.2535602
+                      },
+                      "travel_mode" : "WALKING"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "0.2 km",
+                         "value" : 151
+                      },
+                      "duration" : {
+                         "text" : "2 mins",
+                         "value" : 110
+                      },
+                      "end_location" : {
+                         "lat" : 55.8614229,
+                         "lng" : -4.2488766
+                      },
+                      "html_instructions" : "Continue straight onto \u003cb\u003eGeorge Square\u003c/b\u003e",
+                      "maneuver" : "straight",
+                      "polyline" : {
+                         "points" : "un}sIfi}X@WDm@@KReDPwCHgA"
+                      },
+                      "start_location" : {
+                         "lat" : 55.8617097,
+                         "lng" : -4.2512396
+                      },
+                      "travel_mode" : "WALKING"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "0.1 km",
+                         "value" : 102
+                      },
+                      "duration" : {
+                         "text" : "1 min",
+                         "value" : 80
+                      },
+                      "end_location" : {
+                         "lat" : 55.8612219,
+                         "lng" : -4.247275999999999
+                      },
+                      "html_instructions" : "Continue onto \u003cb\u003eGeorge St\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003eDestination will be on the left\u003c/div\u003e",
+                      "polyline" : {
+                         "points" : "{l}sInz|Xb@iHBU"
+                      },
+                      "start_location" : {
+                         "lat" : 55.8614229,
+                         "lng" : -4.2488766
+                      },
+                      "travel_mode" : "WALKING"
+                   }
+                ],
+                "traffic_speed_entry" : [],
+                "via_waypoint" : []
+             }
+          ],
+          "overview_polyline" : {
+             "points" : "eo_tIn_dYFuA@GF?L?L@t@d@Ja@LCF?TDhAb@NDF?h@c@J[b@qDFIFCZG^?v@Fj@D\\C~@UZOJMPSt@sA^c@^Yf@WJEn@oEvAwJRw@l@uBzCc@b@GI{DMqDc@gO]cNCcCFwBfE}r@lC}d@`AgPHmAFQpAYdEbAlCr@TFEIAKL_CTsDVkEp@qKf@_I"
+          },
+          "summary" : "Sauchiehall St",
+          "warnings" : [
+             "Walking directions are in beta. Use caution – This route may be missing pavements or pedestrian paths."
+          ],
+          "waypoint_order" : []
+       }
+    ],
+    "status" : "OK"
+ }

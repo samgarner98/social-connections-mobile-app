@@ -1,8 +1,9 @@
-import { View, Text, TextInput, Button, StyleSheet, SafeAreaView, Alert, Platform, StatusBar, Image, TouchableOpacity, ScrollView} from 'react-native'
+import { View, Text, TextInput, Button, StyleSheet, SafeAreaView, Alert, Platform, StatusBar, Image, TouchableOpacity, ScrollView, Keyboard} from 'react-native'
 import React, {useState, useLayoutEffect, useEffect} from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
+import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
 
 const EditJournalScreen = () => {
   const navigation = useNavigation();
@@ -10,16 +11,8 @@ const EditJournalScreen = () => {
     navigation.setOptions({
       header: () =>
         (
-          <SafeAreaView style = {{backgroundColor: '#fef1e5'}}>
-          <View style={styles.header}>
-            <TouchableOpacity style = {styles.headerOne} onPress = {() => navigation.navigate('Journal')}>
-          <Text style = {styles.headerTextStyle}>Go Back</Text >
-          </TouchableOpacity>
-          <TouchableOpacity style = {styles.headerTwo} onPress = {saveJournal}>
-          <Text style = {styles.headerTextStyle}>Publish</Text >
-          </TouchableOpacity>
-          </View>
-          <View style = {styles.line}></View>
+          <SafeAreaView style = {styles.SafeAreaView}>
+         
           </SafeAreaView>
         ),
       headerShown: true,
@@ -107,21 +100,31 @@ const EditJournalScreen = () => {
     }
     navigation.navigate('Journal')
   }
-
+  Keyboard.dismiss()
   
 
   return (
-    <View style = {styles.background}>
-      {image ? <Image style = {styles.image} source={{ uri: image }}  /> : <Text style = {styles.image}></Text>}
+    <SafeAreaView style = {styles.background}>
+      <KeyboardAvoidingView
+       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+       style={styles.keyboard}>
+       <View style={styles.header}>
+            <TouchableOpacity style = {styles.headerOne} onPress = {() => navigation.navigate('Journal')}>
+          <Text style = {styles.headerTextStyle}>Go Back</Text >
+          </TouchableOpacity>
+          <TouchableOpacity style = {styles.headerTwo} onPress = {saveJournal}>
+          <Text style = {styles.headerTextStyle}>Publish</Text >
+          </TouchableOpacity>
+          </View>
+      {image ? <Image style = {styles.image} source={{ uri: image }}  /> : <Text style = {styles.image}>No Photo</Text>}
       <TouchableOpacity title="Pick an image from camera roll" onPress={pickImage} style = {styles.imageButtonOne}>
         <Text style = {styles.imageText}>Add Photo</Text>
         
       </TouchableOpacity>
-      <View style = {styles.line}></View>
       
       <TextInput
         placeholder = 'Enter Title'
-        placeholderTextColor="#000"
+        placeholderTextColor="white"
         style={styles.input}
         onChangeText={setTitle}
         value={title}
@@ -130,13 +133,14 @@ const EditJournalScreen = () => {
      
       <TextInput
         placeholder = 'Enter Details'
-        placeholderTextColor="#000"
+        placeholderTextColor="white"
         style={styles.entryInput}
         multiline = {true}
         onChangeText={setEntry}
         value={entry}
       />
-    </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   )
 }
 
@@ -147,36 +151,36 @@ const styles = StyleSheet.create({
   background: {
     height: '100%',
     width: '100%',
-    backgroundColor: '#fef1e5',
-    alignItems: 'center',
-    position: 'relative',
+    backgroundColor: '#001C23',
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     
   },
   header: {
     width: '100%',
-    height: 120,
+    height: '13%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    backgroundColor: '#fef1e5'
+    
+    backgroundColor: '#002731'
   },
   headerOne: {
-   height: '80%',
+   height: '90%',
    width: '32%',
-   backgroundColor: "rgba(255,255,255,1)",
+   borderColor: '#D42951',
    borderWidth: 3,
-   borderColor: '#F34E6',
+   backgroundColor: '#F34E6F',
    borderRadius: 25,
    justifyContent: 'center',
    alignItems: 'center',
-   left: '10%'
+   left: '10%',
+   
  },
   headerTwo: {
-   height: '80%',
+   height: '90%',
    width: '32%',
-   backgroundColor: "rgba(255,255,255,1)",
+   backgroundColor: '#009D97',
    borderWidth: 3,
-   borderColor: '#10182f',
+   borderColor: '#08FEDD',
    borderRadius: 25,
    justifyContent: 'center',
    alignItems: 'center',
@@ -184,20 +188,23 @@ const styles = StyleSheet.create({
  },
  headerTextStyle: {
    fontSize: 25,
-   fontWeight: 'bold'
+   fontWeight: 'bold',
+   color: 'white'
  },
  headerTextStyleTwo: {
    fontSize: 20,
-   fontWeight: 'bold'
+   fontWeight: 'bold',
+   color: 'white'
  },
  line: {
    width: '100%',
-   height: 2,
-   backgroundColor: 'rgba(52, 52, 52, 0.5)', 
+   height: 1,
+   backgroundColor: '#009D97', 
+  
 },
 imageButtonOne: {
-  height: '7%',
-  width: '30%',
+  height: '10%',
+  width: '35%',
   backgroundColor: '#10172f',
   borderWidth: 3,
   borderColor: '#4529D4',
@@ -208,7 +215,7 @@ imageButtonOne: {
   justifyContent: 'center',
   alignItems: 'center',
   position: 'absolute',
-  top: '17%',
+  top: '30%',
   right: 2
  },
  imageText: {
@@ -218,10 +225,16 @@ imageButtonOne: {
    fontSize: 20,
  },
  image: {
-   width: '100%',
-   height: '25%',
-   alignSelf: 'stretch',
-   backgroundColor: '#F4C07B'
+   width: '97%',
+   height: '30%',
+   textAlign: 'center',
+   backgroundColor: '#EEA764',
+   alignSelf: 'center',
+   borderRadius: 15,
+   borderWidth: 2,
+   overflow: 'hidden',
+
+   
   },
   infoText: {
     margin: '1%',
@@ -229,37 +242,49 @@ imageButtonOne: {
     fontSize: 25,
     position: 'relative',
     marginTop: 10,
+    color: 'white'
     
   },
   input: {
     height: "7%",
-    width: '96%',
+    width: '90%',
     margin: 15,
-    borderWidth: 1,
-    borderColor: '#10172f',
+    borderWidth: 2,
+    borderColor: '#E1A501',
     borderRadius: 10,
-    backgroundColor: "rgba(255,255,255,1)",
-    borderBottomColor: '#10172f',
+    backgroundColor: "#002731",
     borderBottomWidth: 2,
     fontSize: 25,
-    textAlign: 'center'
+    textAlign: 'center',
+    alignSelf: 'center',
+    color: 'white'
+    
     
   },
   entryInput: {
-    height: "57%",
-    width: '98%',
+    height: "42%",
+    width: '90%',
     margin: 0,
-    borderWidth: 1,
-    borderColor: "#10172f",
+    borderWidth: 2,
+    borderColor: "#E1A501",
     borderRadius: 5,
-    backgroundColor: "rgba(255,255,255,1)",
-    borderBottomColor: '#10172f',
+    backgroundColor: "#002731",
     borderTopWidth: 1,
     paddingTop: 0,
     paddingBottom: 0,
-    fontSize: 25
+    fontSize: 25,
+    alignSelf: 'center',
+    color: 'white'
+
     
-    
+  },
+  SafeAreaView: {
+   backgroundColor: '#002731',
+   
+   width: '100%',
+   position: 'relative',
+   padding: 0,
+   flex: 1
   }
 
 });

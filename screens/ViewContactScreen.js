@@ -1,26 +1,19 @@
 import { View, Text, TextInput, Button, StyleSheet, SafeAreaView, Alert, Platform, StatusBar, Image, TouchableOpacity} from 'react-native'
 import React, {useState, useLayoutEffect, useEffect} from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
+import * as Contacts from 'expo-contacts';
 
 const ViewContactScreen = ({route}) => {
-    
+  const isFocused = useIsFocused(); 
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       header: () =>
         (
-          <SafeAreaView style = {{backgroundColor: '#fef1e5'}}>
-          <View style={styles.header}>
-            <TouchableOpacity style = {styles.headerOne} onPress = {() => navigation.navigate('Contacts')}>
-          <Text style = {styles.headerTextStyle}>Go Back</Text >
-          </TouchableOpacity>
-          <TouchableOpacity style = {styles.headerTwo} onPress = {() => setEmergencyContact(contact)}>
-          <Text style = {styles.headerTextStyleTwo}>Make Emergency Contact</Text >
-          </TouchableOpacity>
-          </View>
-          <View style = {styles.line}></View>
+          <SafeAreaView style = {styles.safeAreaView}>
+          
           </SafeAreaView>
         ),
       headerShown: true,
@@ -42,10 +35,16 @@ const ViewContactScreen = ({route}) => {
 
 
   const contact = route.params.contact;
+  console.log(contact)
+  const [image, setImage] = useState(null)
+  const [imageAdded, setImageAdded] = useState(false)
   
   const setEmergencyContact = async (contact) => {
+    const contacttoSave = contact
+    
     try {
-      await AsyncStorage.setItem('@EmergencyContact', JSON.stringify(contact))
+      await AsyncStorage.setItem('@EmergencyContact', JSON.stringify(contacttoSave))
+      console.log(contacttoSave)
     } catch (e) {
       console.log(e)
       // saving error
@@ -56,22 +55,75 @@ const ViewContactScreen = ({route}) => {
     
   }
   
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const imageToSave = {"height": result.assets[0].height,
+      "uri": result.assets[0].uri,
+      "width": result.assets[0].width,}
+     
+      contact.image=imageToSave
+      contact.imageAvailable = true
+      await Contacts.updateContactAsync(contact);
+      setImage(result.assets[0].uri)
+      setImageAdded(true)
+
+    }
+
+  }
+
+  const openContact = async () => {
+    await Contacts.presentFormAsync(contact.id);
+
+
+  }
+
     
-    
+
+  useEffect(() => {
+   if (imageAdded == true || contact.imageAvailable == true){
+    setImage(contact.image.uri)
+   }
+  }, [isFocused]);
 
     
     
     return (
         <SafeAreaView style = {styles.background}>
 
-            <View style = {styles.info}>
-            {contact.imageAvailable ? <Image style = {styles.image} source={{ uri: contact.image.uri }} /> : <View style = {styles.image}><Text style = {styles.photoText}>No Photo</Text></View>}
-            </View>
+          <View style={styles.header}>
+            <TouchableOpacity style = {styles.headerOne} onPress = {() => navigation.navigate('Contacts')}>
+          <Text style = {styles.headerTextStyle}>Go Back</Text >
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => openContact()} style = {styles.OptionsButton}>
+        <Text style = {styles.OptionsText}>Options</Text>
+      </TouchableOpacity>
+          
+          
+          </View>
+
+           
+            {contact.imageAvailable ? <Image style = {styles.image} source={{ uri: image }} /> : <View style = {styles.image}><Text style = {styles.photoText}>No Photo</Text></View>}
+            <TouchableOpacity title="Pick an image from camera roll" onPress={pickImage} style = {styles.imageButtonOne}>
+        <Text style = {styles.imageText}>Change Photo</Text>
+      </TouchableOpacity>
             <Text style = {styles.name}>{contact.name}</Text>
-            <View style = {styles.lineTwo}></View>
+           
             <View style = {styles.numberBox}>
             <Text style = {styles.numbers}>{getContactData(contact.phoneNumbers, "number")}</Text>
             </View>
+            <TouchableOpacity style = {styles.headerTwo} onPress = {() => setEmergencyContact(contact)}>
+          <Text style = {styles.headerTextStyleTwo}>Make Emergency Contact</Text >
+          </TouchableOpacity>
+          
 
 
         </SafeAreaView>
@@ -80,7 +132,7 @@ const ViewContactScreen = ({route}) => {
 
 const styles = StyleSheet.create({
     background: {
-        backgroundColor: '#fef1e5',
+        backgroundColor: '#001C23',
         height: '100%' , 
         width: '100%' ,
         flexDirection: 'row',
@@ -93,40 +145,13 @@ const styles = StyleSheet.create({
       },
       header: {
         width: '100%',
-        height: 120,
+        height: '13%',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-        backgroundColor: '#fef1e5'
+       
+        backgroundColor: '#002731',
+       
       },
-      containerOne: {
-        height: '80%',
-        width: '30%',
-        backgroundColor: '#FEFEFE',
-        borderWidth: 3,
-        borderColor: '#F34E6F',
-        borderRadius: 25,
-        position: 'absolute',
-        top: '0%',
-        justifyContent: 'center',
-        left: '5%'
-        
-        
-    },
-    containerTwo: {
-      height: '5%',
-      width: '30%',
-      backgroundColor: '#FEFEFE',
-      borderWidth: 3,
-      borderColor: '#10182f',
-      borderRadius: 25,
-      position: 'absolute',
-      top: '23%',
-      justifyContent: 'center',
-      right: '0%',
-      margin: '5%'
-  
-    },
     TextStyle: {
       position: 'absolute',
       alignSelf: 'center',
@@ -136,8 +161,7 @@ const styles = StyleSheet.create({
     },
     image: {
       width: '50%',
-      height: '100%',
-      alignSelf: 'center',
+      height: '28%',
       borderRadius: 100,
       margin: 10,
       backgroundColor: '#EEA764',
@@ -147,26 +171,15 @@ const styles = StyleSheet.create({
     
       
     },
-    nameDisplay: {
-        width: '50%',
-        height: '23%',
-        fontSize: 30,
-        fontWeight: 'bold',
-        color: '#10182f',
-        alignSelf: 'center',
-        paddingTop: 60,
-        position: 'relative',
-        
-
     
-    },
     infoDisplay: {
       position: 'relative',
       alignSelf: 'center',
       marginLeft: '4%',
       fontSize: 25,
       width: '96%',
-      marginTop: '6%'
+      marginTop: '6%',
+      
         
     },
     line: {
@@ -177,7 +190,7 @@ const styles = StyleSheet.create({
         
     },
     headerOne: {
-      height: '80%',
+      height: '90%',
       width: '32%',
       borderColor: '#D42951',
       borderWidth: 3,
@@ -192,79 +205,79 @@ const styles = StyleSheet.create({
      
    },
    headerTwo: {
-    height: '80%',
-    width: '32%',
-    backgroundColor: '#FEFEFE',
+    height: '10%',
+    padding: '2%',
+    backgroundColor: '#E1A501',
     borderWidth: 3,
-    borderColor: '#10182f',
+    borderColor: '#FEBD08',
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
-    right: '10%' 
+    
+   
+
   },
+  headerThree: {
+   height: '90%',
+   padding: '2%',
+   backgroundColor: '#E1A501',
+   borderWidth: 3,
+   borderColor: '#FEBD08',
+   borderRadius: 25,
+   justifyContent: 'center',
+   alignItems: 'center',
+   
+  
+
+ },
    headerTextStyle: {
     fontSize: 25,
     fontWeight: 'bold',
-    color: '#FEFEFE'
+    color: 'white'
    },
      headerTextStyleTwo: {
-       fontSize: 20,
+       fontSize: 25,
        fontWeight: 'bold',
-       
+       color: '#002731'
      },
      name: {
-       fontSize: 30,
+       marginTop: 40,
+       fontSize: 35,
        flexWrap: 'wrap',
-       alignSelf: 'stretch'
+       alignSelf: 'stretch',
+       textAlign: 'center',
+       color: 'white',
+       width: '100%',
+       fontWeight: 'bold'
       },
       numbers: {
         fontSize:30,
-        width: '100%',
-        marginVertical: 10,
-        marginLeft: 4
+       marginVertical: '5%',
+        color: 'white'
         
 
 
       },
-     imageButtonOne: {
-      height: '25%',
-      width: '90%',
-      backgroundColor: "rgba(255,255,255,1)",
-      borderWidth: 3,
-      borderColor: "#10172f",
-      borderRadius: 25,
-      marginTop: 2,
-      marginBottom: 20,
-      marginHorizontal: '2%',
-      justifyContent: 'center',
-      alignItems: 'center',
-      position: 'absolute',
-      alignSelf: 'center',
-      top: '55%',
-     },
      imageText: {
       fontSize: 25,
       fontWeight: 'bold'
      },
      numberBox: {
-       width: '100%',
-       height: '40%',
        flexDirection: 'column',
-       marginTop: 20,
        position: 'relative',
+       margin: '5%'
      
      },
      lineTwo: {
       width: '90%',
       height: 2,
-      backgroundColor: 'rgba(52, 52, 52, 0.5)',
+      backgroundColor: '#271700',
       position: 'relative',
       bottom: '0%',
       marginTop: 10
      },
      info: {
-       width: '100%',
-       height: '30%',
+      
        justifyContent: 'center',
        alignItems: 'center',
        marginVertical: 10
@@ -272,7 +285,61 @@ const styles = StyleSheet.create({
      },
      photoText: {
        fontSize: 25
+     },
+     safeAreaView: {
+      backgroundColor: '#002731',
+      
+      width: '100%',
+      position: 'relative',
+      padding: 0,
+      flex: 1
+   },
+   imageButtonOne: {
+     
+    padding: '2%',
+     backgroundColor: "rgba(255,255,255,1)",
+     borderWidth: 3,
+     borderColor: "#FEBD08",
+     borderRadius: 25,
+     marginHorizontal: '2%',
+     justifyContent: 'center',
+     alignItems: 'center',
+     position: 'relative',
+     alignSelf: 'center',
+     marginTop: -50
+   
+    
+     
+    
+    },
+    birthday: {
+      color: 'white',
+      fontSize: 30,
+      marginTop: 10
+    },
+    OptionsButton: {
+      
+     padding: '2%',
+      backgroundColor: "#002731",
+      borderWidth: 3,
+      borderColor: "#FEBD08",
+      borderRadius: 25,
+      marginHorizontal: '2%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'relative',
+      alignSelf: 'center',
+    
+     
+      
+     
+     },
+     OptionsText: {
+      fontSize: 25,
+      fontWeight: 'bold',
+      color: 'white'
      }
+
 });
 
 export default ViewContactScreen;

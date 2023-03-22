@@ -4,11 +4,11 @@ import * as Contacts from 'expo-contacts'
 import { useEffect, useState, useLayoutEffect } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ContactScreen = () => {
+
+const GoalPerson = ({route}) => {
   const navigation = useNavigation();
-  const isFocused = useIsFocused();
-
   useLayoutEffect(() => {
     navigation.setOptions({
       header: () =>
@@ -23,14 +23,15 @@ const ContactScreen = () => {
   });
   const [error, setError] = useState(undefined);
   const [contacts, setContacts] = useState(undefined);
+  const goalNo = route.params.goalNo
+  const goalRatings = route.params.goalRatings
 
   useEffect(() => {
-    if (isFocused){
     (async () => {
       const { status } = await Contacts.requestPermissionsAsync();
       if (status === "granted") {
         const { data } = await Contacts.getContactsAsync({
-          fields: [ Contacts.Fields.Birthday, Contacts.Fields.Emails, Contacts.Fields.FirstName, Contacts.Fields.LastName, Contacts.Fields.PhoneNumbers, Contacts.Fields.Image, Contacts.Fields.Relationships]
+          fields: [ Contacts.Fields.Birthday, Contacts.Fields.Emails, Contacts.Fields.FirstName, Contacts.Fields.LastName, Contacts.Fields.PhoneNumbers, Contacts.Fields.Image]
         });
 
         if (data.length > 0) {
@@ -43,8 +44,7 @@ const ContactScreen = () => {
         setError("Permission to access contacts denied.");
       }
     })();
-  }
-  }, [isFocused]);
+  }, []);
 
   let getContactData = (data, property) => {
     if (data) {
@@ -64,7 +64,7 @@ const ContactScreen = () => {
       return contacts.map((contact, index) => {
         return (
           
-          <TouchableOpacity key={index} style={styles.contact} onPress = {() => navigation.navigate("View Contact", {contact: contact })}>
+          <TouchableOpacity key={index} style={styles.contact} onPress = {() => setPerson(contact)}>
             {contact.imageAvailable ? <Image style = {styles.image} source={{ uri: contact.image.uri }} /> : <Text></Text>}
             <Text style = {styles.contactInfo}>{contact.firstName} {contact.lastName} </Text>
           </TouchableOpacity>
@@ -75,12 +75,31 @@ const ContactScreen = () => {
     }
   }
 
+  const setPerson = async (contact) => {
+    goalRatings[goalNo].person = contact
+    console.log(goalRatings)
+    console.log(goalRatings[goalNo].person.firstName)
+    try {
+            
+        await AsyncStorage.setItem('@GoalRatings', JSON.stringify(goalRatings))
+      } catch (e) {
+        console.log(e)
+        console.log("this")
+        // saving error
+      }
+    
+    navigation.navigate("Goals")
+    
+    
+    
 
+    
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-            <TouchableOpacity style = {styles.headerOne} onPress = {() => navigation.navigate('Home')}>
+            <TouchableOpacity style = {styles.headerOne} onPress = {() => navigation.navigate('Goals')}>
           <Text style = {styles.headerTextStyle}>Go Back</Text >
           </TouchableOpacity>
           </View>
@@ -195,4 +214,4 @@ safeArea: {
 }
 });
 
-export default ContactScreen
+export default GoalPerson

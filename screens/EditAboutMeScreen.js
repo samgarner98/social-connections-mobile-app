@@ -1,25 +1,19 @@
-import { View, Text, TextInput, Button, StyleSheet, SafeAreaView, Alert, Platform, StatusBar, Image, TouchableOpacity, ScrollView} from 'react-native'
+import { View, Text, TextInput, Button, StyleSheet, SafeAreaView, Alert, Platform, StatusBar, Image, TouchableOpacity, ScrollView, KeyboardAvoidingView, Keyboard} from 'react-native'
 import React, {useState, useLayoutEffect, useEffect} from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
+import { useIsFocused } from "@react-navigation/native";
 
 const EditAboutMeScreen = () => {
+  const isFocused = useIsFocused();
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       header: () =>
         (
-          <SafeAreaView style = {{backgroundColor: '#fef1e5'}}>
-          <View style={styles.header}>
-            <TouchableOpacity style = {styles.headerOne} onPress = {() => navigation.navigate('About me')}>
-          <Text style = {styles.headerTextStyle}>Go Back</Text >
-          </TouchableOpacity>
-          <TouchableOpacity style = {styles.headerTwo} onPress = {saveUser}>
-          <Text style = {styles.headerTextStyleTwo}>Save Info</Text >
-          </TouchableOpacity>
-          </View>
-          <View style = {styles.line}></View>
+          <SafeAreaView style = {styles.safeArea}>
+          
           </SafeAreaView>
         ),
       headerShown: true,
@@ -29,26 +23,33 @@ const EditAboutMeScreen = () => {
 
   const [name, setName] = useState(null);
   const [age, setAge] = useState(0);
-  const [emergencyContact, setEmergencyContact] = useState(null);
+  const [hobbies, setHobbies] = useState(null);
   const [image, setImage] = useState(null);
   const [userProfile, setUserData] = useState({
     name: name,
     age: age,
-    emergencyContact: emergencyContact,
+    hobbies: hobbies,
     
   });
   const [initialUser, setInitialData] = useState({
     name: name,
     age: age,
-    emergencyContact: emergencyContact,
+    hobbies: hobbies,
     
   });
+  const [keyboard, setKeyboard] = useState(false)
   
 
   const getData = async () => {
     try {
+      
       const values = await AsyncStorage.getItem('@User')
-      setUserData(JSON.parse(values));
+      if (values != null){
+        setUserData(JSON.parse(values));
+      }
+      
+      
+      
       
     } catch(e) {
       console.log(e)
@@ -67,24 +68,24 @@ const EditAboutMeScreen = () => {
     
 
   }
+  
 
-  useEffect(() => {
-    getData();
-});
-useEffect(()=>{
-  if (name == null){
-    getInitialData();
-  }
-})
+
+
 
   const saveUser = async () => {
     const userToSave = {
       name: name,
       age: age,
-      emergencyContact: emergencyContact,
+      hobbies: hobbies,
       
     };
-  
+    
+    if (name == null || age == null || hobbies == null){
+      Alert.alert('Please fill all the detials','', [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]);
+    } else{
    try {
       await AsyncStorage.setItem('@User', JSON.stringify(userToSave))
       setUserData(userToSave)
@@ -94,6 +95,7 @@ useEffect(()=>{
     }
     navigation.navigate('About me')
   }
+}
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -119,70 +121,98 @@ useEffect(()=>{
     }
   };
 
-  const getInitialData = async () => {
-    try {
-      const values = await AsyncStorage.getItem('@User')
-      setInitialData(JSON.parse(values));
-      setName(initialUser.name);
-      setAge(initialUser.age);
-      setEmergencyContact(initialUser.emergencyContact);
-    } catch(e) {
-      console.log(e)
-      // error reading value
-    }
+  const getInitialData = () => {
+    if (userProfile != null){
+      setName(userProfile.name);
+      setAge(userProfile.age);
+      setHobbies(userProfile.hobbies);}
   }
 
  
 
+  useEffect(() => {
+    getData();
+    if (name == null){
+      
+      getInitialData();
+      
+    }
+
+    if (keyboard == false){
+      Keyboard.dismiss()
+      setKeyboard(true)
+    }
+    
+  });
+ 
+
+
+
+
+
   return (
-    <ScrollView 
-      style={styles.scrollView} 
-      contentContainerStyle={styles.contentContainer}>
+    
 
     <SafeAreaView style = {styles.background}>
-
+      <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.keyboard}>
+       
+      <View style={styles.header}>
+            <TouchableOpacity style = {styles.headerOne} onPress = {() => navigation.navigate('About me')}>
+          <Text style = {styles.headerTextStyle}>Go Back</Text >
+          </TouchableOpacity>
+          <TouchableOpacity style = {styles.headerTwo} onPress = {saveUser}>
+          <Text style = {styles.headerTextStyleTwo}>Save Info</Text >
+          </TouchableOpacity>
+          </View>
     
       
-      
-      {image ? <Image style = {styles.image} source={{ uri: image }} /> : <Text style = {styles.image}>None :(</Text>}
+      <View style={styles.imageContainer}>
+      {image ? <Image style = {styles.image} source={{ uri: image }} /> : <Text style = {styles.image}></Text>}
       <TouchableOpacity title="Pick an image from camera roll" onPress={pickImage} style = {styles.imageButtonOne}>
         <Text style = {styles.imageText}>Change Photo</Text>
       </TouchableOpacity>
-     
+      </View>
       
-      <Text style = {styles.titleDetails}>Fill in your details to complete your profile. When you are finsihed, press 'Save Info'</Text>
-      <Text style = {styles.infoText}>Name</Text>
+      
+      
       <TextInput
         placeholder = 'Enter your Name'
+        placeholderTextColor={'white'}
         style={styles.input}
         onChangeText={setName}
         value={name}
         
 
       />
-      <Text style = {styles.infoText}>Age</Text>
+      
       <TextInput
         placeholder = 'Enter your age'
+        placeholderTextColor={'white'}
         style={styles.input}
         onChangeText={setAge}
         value={age} 
+        keyboardType={'number-pad'}
       
       />
       
-      <Text style = {styles.infoText}>Emergency Contacts</Text>
       <TextInput
-        placeholder = 'Enter your Emergency Contacts'
-        style={styles.input}
-        onChangeText={setEmergencyContact}
-        value={emergencyContact} 
+        placeholder = 'Write About Yourself (hobbies and interests). Example: My name is.... I enjoy...'
+        placeholderTextColor={'white'}
+        style={styles.inputTwo}
+        onChangeText={setHobbies}
+        value={hobbies} 
+        multiline={true}
       
       />
       
 
-     
-  
+    
+      </KeyboardAvoidingView>
+      
     </SafeAreaView>
-    </ScrollView>
+  
   );
 };
     
@@ -193,14 +223,15 @@ const styles = StyleSheet.create({
   },
   header: {
     width: '100%',
-    height: 120,
+    height: '13%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    backgroundColor: '#fef1e5'
+   
+    backgroundColor: '#002731',
+   
   },
   background: {
-    backgroundColor: "#fef1e5",
+    backgroundColor: "#001C23",
     height: '100%',
     width: '100%',
     flexDirection: 'row',
@@ -248,40 +279,56 @@ const styles = StyleSheet.create({
     color: '#10182f'
   },
   input: {
-    height: "5%",
-    width: '96%',
-    margin: 8,
-    borderWidth: 1,
-    borderColor: "#10172f",
+    height: "10%",
+    width: '94%',
+    margin: '3%',
+    borderWidth: 3,
+    borderColor: "#FEBD08",
     borderRadius: 10,
-    backgroundColor: "rgba(255,255,255,1)",
-    borderBottomColor: '#10172f',
-    borderBottomWidth: 2,
+    backgroundColor: "#002731",
+    borderBottomColor: '#FEBD08',
+    fontSize: 25,
+    color: 'white',
     
+    
+    
+  },
+  
+  inputTwo: {
+    height: "25%",
+    width: '94%',
+    margin: '3%',
+    borderWidth: 3,
+    borderColor: "#FEBD08",
+    borderRadius: 10,
+    backgroundColor: "#002731",
+    fontSize: 22,
+    textAlignVertical: 'top',
+    color: 'white'
+
   },
   image: {
     width: '40%',
-      height: '23%',
+      height: '100%',
       alignSelf: 'center',
       borderRadius: 100,
-      margin: 10
+      margin: '1%'
     
   },
   imageButtonOne: {
-    height: '7%',
-    width: '40%',
+    height: '40%',
+    width: '45%',
     backgroundColor: "rgba(255,255,255,1)",
     borderWidth: 3,
-    borderColor: "#10172f",
+    borderColor: "#FEBD08",
     borderRadius: 25,
-    marginTop: 2,
-    marginBottom: 20,
+    margin: '2%',
     marginHorizontal: '2%',
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'absolute',
+    position: 'relative',
     alignSelf: 'center',
-    top: '15%'
+   
     
    
    },
@@ -303,7 +350,8 @@ const styles = StyleSheet.create({
       margin: '1%',
       fontWeight: 'bold',
       fontSize: 20,
-      width: '100%'
+      width: '100%',
+      color: 'white'
 
     },
     container: {
@@ -330,12 +378,12 @@ const styles = StyleSheet.create({
   line: {
       width: '100%',
       height: 2,
-      backgroundColor: 'rgba(52, 52, 52, 0.5)',
+      backgroundColor: '#383200',
       position: 'absolute',
       bottom: '0%'
      },
      headerOne: {
-       height: '80%',
+       height: '90%',
        width: '32%',
        borderColor: '#D42951',
        borderWidth: 3,
@@ -350,11 +398,11 @@ const styles = StyleSheet.create({
       
     },
     headerTwo: {
-     height: '80%',
+     height: '90%',
      width: '32%',
-     backgroundColor: '#FEFEFE',
+     backgroundColor: '#E1A501',
      borderWidth: 3,
-     borderColor: '#10182f',
+     borderColor: '#FEBD08',
      borderRadius: 25,
      justifyContent: 'center',
      alignItems: 'center',
@@ -363,19 +411,37 @@ const styles = StyleSheet.create({
     headerTextStyle: {
      fontSize: 25,
      fontWeight: 'bold',
-     color: '#FEFEFE'
+     color: 'white'
     },
       headerTextStyleTwo: {
         fontSize: 20,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: 'white'
       },
     line: {
       width: '100%',
       height: 2,
-      backgroundColor: 'rgba(52, 52, 52, 0.5)',
+      backgroundColor: '#383200',
      
       
-  }
+  },
+  safeArea: {
+   backgroundColor: '#002731',
+   
+   width: '100%',
+   position: 'relative',
+   padding: 0,
+   flex: 1
+},
+keyboard: {
+  flex: 1,
+},
+imageContainer: {
+  flexDirection: 'row',
+  height: '23%',
+  alignItems: 'center',
+  justifyContent: 'space-around'
+}
 
 });
 

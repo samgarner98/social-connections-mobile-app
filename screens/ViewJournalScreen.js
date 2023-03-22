@@ -9,16 +9,8 @@ const ViewJournalScreen = ({route}) => {
     navigation.setOptions({
       header: () =>
         (
-          <SafeAreaView style = {{backgroundColor: '#fef1e5'}}>
-          <View style={styles.header}>
-            <TouchableOpacity style = {styles.headerOne} onPress = {() => navigation.navigate('Journal')}>
-          <Text style = {styles.headerTextStyle}>Go Back</Text >
-          </TouchableOpacity>
-          <TouchableOpacity style = {styles.headerTwo} onPress = {deleteEntry}>
-          <Text style = {styles.headerTextStyleTwo}>Delete Entry</Text >
-          </TouchableOpacity>
-          </View>
-          <View style = {styles.line}></View>
+          <SafeAreaView style = {styles.SafeAreaView}>
+          
           </SafeAreaView>
         ),
       headerShown: true,
@@ -62,11 +54,22 @@ const ViewJournalScreen = ({route}) => {
     
     return(
         <SafeAreaView style = {styles.background}>
+          <View style={styles.header}>
+            <TouchableOpacity style = {styles.headerOne} onPress = {() => navigation.navigate('Journal')}>
+          <Text style = {styles.headerTextStyle}>Go Back</Text >
+          </TouchableOpacity>
+          <TouchableOpacity style = {styles.headerTwo} onPress = {deleteEntry}>
+          <Text style = {styles.headerTextStyleTwo}>Delete Entry</Text >
+          </TouchableOpacity>
+          </View>
+          <View style = {styles.line}></View>
         <View>
             {image ? <Image style = {styles.image} source={{ uri: image }} /> : <Text>None :(</Text>}
             <Text style = {styles.title}> {title}</Text>
             <Text style = {styles.date}>{date}</Text>
+            <ScrollView>
             <Text style = {styles.entry}> {entry}</Text>
+            </ScrollView>
 
             
         </View>
@@ -76,60 +79,62 @@ const ViewJournalScreen = ({route}) => {
 
 
 const styles = StyleSheet.create({
-    background: {
-        height: '100%',
-        width: '100%',
-        backgroundColor: '#fef1e5'
-      },
-      header: {
-        width: '100%',
-        height: 120,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-        backgroundColor: '#fef1e5'
-      },
-      headerOne: {
-       height: '80%',
-       width: '32%',
-       borderColor: '#D42951',
-       borderWidth: 3,
-       backgroundColor: '#F34E6F',
-       borderRadius: 25,
-       justifyContent: 'center',
-       alignItems: 'center',
-       left: '10%',
-       
-     },
-      headerTwo: {
-       height: '80%',
-       width: '32%',
-       backgroundColor: '#FEFEFE',
-       borderWidth: 3,
-       borderColor: '#10182f',
-       borderRadius: 25,
-       justifyContent: 'center',
-       alignItems: 'center',
-       right: '10%' 
-     },
-     headerTextStyle: {
-       fontSize: 25,
-       fontWeight: 'bold',
-       color: '#FEFEFE'
-     },
-     headerTextStyleTwo: {
-       fontSize: 20,
-       fontWeight: 'bold'
-     },
-     line: {
-       width: '100%',
-       height: 1,
-       backgroundColor: '#271700', 
-      
-    },
+  background: {
+    height: '100%',
+    width: '100%',
+    backgroundColor: '#001C23',
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+  },
+  header: {
+    width: '100%',
+    height: '13%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    
+    backgroundColor: '#002731'
+  },
+  headerOne: {
+   height: '90%',
+   width: '32%',
+   borderColor: '#D42951',
+   borderWidth: 3,
+   backgroundColor: '#F34E6F',
+   borderRadius: 25,
+   justifyContent: 'center',
+   alignItems: 'center',
+   left: '10%',
+   
+ },
+  headerTwo: {
+   height: '90%',
+   width: '32%',
+   backgroundColor: '#009D97',
+   borderWidth: 3,
+   borderColor: '#08FEDD',
+   borderRadius: 25,
+   justifyContent: 'center',
+   alignItems: 'center',
+   right: '10%' 
+ },
+ headerTextStyle: {
+   fontSize: 25,
+   fontWeight: 'bold',
+   color: 'white'
+ },
+ headerTextStyleTwo: {
+   fontSize: 20,
+   fontWeight: 'bold',
+   color: 'white'
+ },
+ line: {
+   width: '100%',
+   height: 1,
+   backgroundColor: '#009D97', 
+  
+},
     image: {
       width: '100%',
-      height: '45%',
+      height: '40%',
       alignSelf: 'stretch',
       position: 'abolute',
     },
@@ -137,7 +142,9 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         fontSize: 40,
         fontWeight: 'bold',
-        padding: 5
+        padding: 5,
+        color: 'white',
+        textAlign: 'center'
     },
     date: {
         alignSelf: 'center',
@@ -148,7 +155,16 @@ const styles = StyleSheet.create({
     },
     entry: {
         fontSize: 30,
-        padding: 5
+        padding: 5,
+        color: 'white'
+    },
+    SafeAreaView: {
+     backgroundColor: '#002731',
+     
+     width: '100%',
+     position: 'relative',
+     padding: 0,
+     flex: 1
     }
 
 

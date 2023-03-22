@@ -11,16 +11,8 @@ const JournalScreen = () => {
     navigation.setOptions({
       header: () =>
         (
-          <SafeAreaView style = {{backgroundColor: '#fef1e5'}}>
-          <View style={styles.header}>
-            <TouchableOpacity style = {styles.headerOne} onPress = {() => navigation.navigate('Home')}>
-          <Text style = {styles.headerTextStyle}>Go Back</Text >
-          </TouchableOpacity>
-          <TouchableOpacity style = {styles.headerTwo} onPress = {() => navigation.navigate('Edit Journal')}>
-          <Text style = {styles.headerTextStyleTwo}>+ Add Entry</Text >
-          </TouchableOpacity>
-          </View>
-          <View style = {styles.line}></View>
+          <SafeAreaView style = {styles.safeArea}>
+         
           </SafeAreaView>
         ),
       headerShown: true,
@@ -72,6 +64,14 @@ const Item = ({title, entry, image, id, date}) => (
   return (
     
     <SafeAreaView style = {styles.background}>
+       <View style={styles.header}>
+            <TouchableOpacity style = {styles.headerOne} onPress = {() => navigation.navigate('Home')}>
+          <Text style = {styles.headerTextStyle}>Go Back</Text >
+          </TouchableOpacity>
+          <TouchableOpacity style = {styles.headerTwo} onPress = {() => navigation.navigate('Edit Journal')}>
+          <Text style = {styles.headerTextStyleTwo}>+ Add Entry</Text >
+          </TouchableOpacity>
+          </View>
     <FlatList
         data={Journal}
         renderItem={({item}) => <Item title={item.title} entry={item.entry} image={item.image} id = {item.id} date = {item.date}/>}
@@ -89,18 +89,19 @@ const styles = StyleSheet.create({
   background: {
     height: '100%',
     width: '100%',
-    backgroundColor: '#fef1e5'
+    backgroundColor: '#001C23',
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   header: {
     width: '100%',
-    height: 120,
+    height: '13%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    backgroundColor: '#fef1e5'
+    
+    backgroundColor: '#002731'
   },
   headerOne: {
-   height: '80%',
+   height: '90%',
    width: '32%',
    borderColor: '#D42951',
    borderWidth: 3,
@@ -112,11 +113,11 @@ const styles = StyleSheet.create({
    
  },
   headerTwo: {
-   height: '80%',
+   height: '90%',
    width: '32%',
-   backgroundColor: '#FEFEFE',
+   backgroundColor: '#E1A501',
    borderWidth: 3,
-   borderColor: '#10182f',
+   borderColor: '#FEBD08',
    borderRadius: 25,
    justifyContent: 'center',
    alignItems: 'center',
@@ -125,29 +126,29 @@ const styles = StyleSheet.create({
  headerTextStyle: {
    fontSize: 25,
    fontWeight: 'bold',
-   color: '#FEFEFE'
+   color: 'white'
  },
  headerTextStyleTwo: {
    fontSize: 20,
-   fontWeight: 'bold'
+   fontWeight: 'bold',
+   color: 'white'
  },
  line: {
    width: '100%',
    height: 1,
-   backgroundColor: '#271700', 
+   backgroundColor: '#009D97', 
   
 },
 item: {
-  backgroundColor: '#FEFEFE',
+  backgroundColor: '#002731',
   height: 180,
-  borderRadius: 5,
-  borderColor: '#10182f',
-  borderWidth: 1,
+  borderRadius: 20,
+  borderColor: '#E1A501',
   padding: 4,
-  marginVertical: 16,
+  marginVertical: 15,
   marginHorizontal: 16,
   justifyContent: 'center',
-  shadowColor: 'rgba(0,0,0, .4)', // IOS
+  shadowColor: '#FEBD08', // IOS
   shadowOffset: { height: 2, width: 2 }, // IOS
   shadowOpacity: 1, // IOS
   shadowRadius: 1, //IOS
@@ -161,6 +162,8 @@ title: {
   position: 'absolute',
   top: 2,
   left: '42%',
+  color: 'white'
+  
   
   
   
@@ -178,8 +181,18 @@ date: {
   position: 'absolute',
   bottom: 2,
   right: '2%',
+  color: 'white'
+ 
   
 
+},
+safeArea: {
+ backgroundColor: '#002731',
+ 
+ width: '100%',
+ position: 'relative',
+ padding: 0,
+ flex: 1
 }
 
 });

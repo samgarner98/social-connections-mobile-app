@@ -1,26 +1,21 @@
-import { View, Text, TextInput, Button, StyleSheet, SafeAreaView, Alert, Platform, StatusBar, Image, TouchableOpacity} from 'react-native'
+import { View, Text, TextInput, Button, StyleSheet, SafeAreaView, Alert, Platform, StatusBar, Image, TouchableOpacity, ScrollView} from 'react-native'
 import React, {useState, useLayoutEffect, useEffect} from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
+import { CalendarFormats } from 'expo-contacts';
+
 
 const AboutMeScreen = () => {
-    
+  const isFocused = useIsFocused();
+
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       header: () =>
         (
-          <SafeAreaView style = {{backgroundColor: '#fef1e5'}}>
-          <View style={styles.header}>
-            <TouchableOpacity style = {styles.headerOne} onPress = {() => navigation.navigate('Home')}>
-          <Text style = {styles.headerTextStyle}>Go Back</Text >
-          </TouchableOpacity>
-          <TouchableOpacity style = {styles.headerTwo} onPress = {() => navigation.navigate('Edit About me')}>
-          <Text style = {styles.headerTextStyleTwo}>Edit Details</Text >
-          </TouchableOpacity>
-          </View>
-          <View style = {styles.line}></View>
+          <SafeAreaView style = {styles.safeArea}>
+          
           </SafeAreaView>
         ),
       headerShown: true,
@@ -31,18 +26,24 @@ const AboutMeScreen = () => {
     const [name, setName] = useState(null);
     const [age, setAge] = useState(0);
     const [image, setImage] = useState(null);
-    const [emergencyContact, setEmergencyContact] = useState(null);
+    const [hobbies, setHobbies] = useState(null);
     const [userProfile, setUserData] = useState({
       name: name,
       age: age,
-      emergencyContact: emergencyContact,
+      hobbies: hobbies,
       
     });
+    const [EmergencyContact, setEmergencyContact] = useState({});
 
     const getData = async () => {
         try {
           const values = await AsyncStorage.getItem('@User')
-          setUserData(JSON.parse(values));
+          if (values != null){
+            setUserData(JSON.parse(values));
+          }else {
+            navigation.navigate("Edit About me")
+          }
+          
           
         } catch(e) {
           console.log(e)
@@ -58,24 +59,68 @@ const AboutMeScreen = () => {
           console.log(e)
           // error reading value
         }
+        try {
+          const values = await AsyncStorage.getItem('@EmergencyContact')
+          if (values != null){
+            setEmergencyContact(JSON.parse(values));
+            
+          }else {
+            setEmergencyContact('No Emergency Contact has been set')
+          }
+          
+          
+        } catch(e) {
+          console.log(e)
+          // error reading value
+        }
+
+
     }
     
     useEffect(() => {
+      if(isFocused){
+     
         getData();
-    }, []);
+     
+    }
+      
+        
+    }, [isFocused]);
     
     return (
         <SafeAreaView style = {styles.background}>
 
+          <View style={styles.header}>
+            <TouchableOpacity style = {styles.headerOne} onPress = {() => navigation.navigate('Home')}>
+          <Text style = {styles.headerTextStyle}>Go Back</Text >
+          </TouchableOpacity>
+          
+
+          <TouchableOpacity style = {styles.headerTwo} onPress = {() => navigation.navigate('Edit About me')}>
+          <Text style = {styles.headerTextStyleTwo}>Edit Details</Text >
+          </TouchableOpacity>
+          </View>
+
             
           
-            {image ? <Image style = {styles.image} source={{ uri: image }} /> : <Text>None :(</Text>}
-            {userProfile ? <Text style = {styles.nameDisplay}>{userProfile.name}</Text> : <Text>None :(</Text>}
-            {userProfile.age ? <Text style = {styles.infoDisplay}>Age:  {userProfile.age}</Text> : <Text>None :(</Text>}
-            <View style = {styles.line}></View>
-            {userProfile.emergencyContact ? <Text style = {styles.infoDisplay}>Emergency Contact: {userProfile.emergencyContact}</Text> : <Text>None :(</Text>}
-            
-            
+            {image ? <Image style = {styles.image} source={{ uri: image }} /> : <Text style = {styles.image}></Text>}
+            {userProfile.name ? <Text style = {styles.nameDisplay}>{userProfile.name} {'\n'}Age: {userProfile.age}</Text> : <Text></Text>}
+            <ScrollView style = {styles.scroll}>
+            {userProfile.hobbies ? <Text style = {styles.infoDisplay}>{userProfile.hobbies}</Text> : <Text>Loading... </Text>}
+            </ScrollView>
+            {EmergencyContact.name ? 
+            <View style = {styles.emergencyView}>
+              
+              <Text style={styles.emergencyTitle}>Emergency Contact:</Text>
+            <TouchableOpacity style = {styles.EmergencyContact} onPress = {() => navigation.navigate("View Contact", {contact: EmergencyContact })}>
+            <Text style = {styles.infoDisplaytwo}>{EmergencyContact.name}</Text> 
+            </TouchableOpacity>
+            </View> : 
+            <View style = {styles.emergencyView}>
+            <TouchableOpacity style = {styles.EmergencyContact} onPress = {() => navigation.navigate("Contacts")}>
+            <Text style = {styles.infoDisplaytwo}>Choose Emergency Contact</Text> 
+            </TouchableOpacity>
+            </View> }
             
             
 
@@ -86,7 +131,7 @@ const AboutMeScreen = () => {
 
 const styles = StyleSheet.create({
     background: {
-        backgroundColor: '#fef1e5',
+        backgroundColor: '#001C23',
         height: '100%' , 
         width: '100%' ,
         flexDirection: 'row',
@@ -97,11 +142,11 @@ const styles = StyleSheet.create({
       },
       header: {
         width: '100%',
-        height: 120,
+        height: '13%',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-        backgroundColor: '#fef1e5'
+        backgroundColor: '#002731',
+       
       },
       containerOne: {
         height: '80%',
@@ -142,20 +187,19 @@ const styles = StyleSheet.create({
       width: '40%',
       height: '23%',
       alignSelf: 'stretch',
-      borderRadius: 100,
+      borderRadius: 400,
       margin: 10
     
       
     },
     nameDisplay: {
         width: '50%',
-        height: '23%',
         fontSize: 30,
         fontWeight: 'bold',
-        color: '#10182f',
+        color: 'white',
         alignSelf: 'center',
-        paddingTop: 60,
         position: 'relative',
+
         
 
     
@@ -163,21 +207,19 @@ const styles = StyleSheet.create({
     infoDisplay: {
       position: 'relative',
       alignSelf: 'center',
-      marginLeft: '4%',
-      fontSize: 25,
-      width: '96%',
-      marginTop: '6%'
-        
+      marginHorizontal: '3%',
+      fontSize: 25,  
+      color: 'white'
     },
     line: {
         width: '100%',
         height: 1,
-        backgroundColor: '#271700',
+        backgroundColor: '#383200',
        
         
     },
     headerOne: {
-      height: '80%',
+      height: '90%',
       width: '32%',
       borderColor: '#D42951',
       borderWidth: 3,
@@ -192,11 +234,11 @@ const styles = StyleSheet.create({
      
    },
    headerTwo: {
-    height: '80%',
+    height: '90%',
     width: '32%',
-    backgroundColor: '#FEFEFE',
+    backgroundColor: '#E1A501',
     borderWidth: 3,
-    borderColor: '#10182f',
+    borderColor: '#FEBD08',
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
@@ -209,8 +251,72 @@ const styles = StyleSheet.create({
    },
      headerTextStyleTwo: {
        fontSize: 20,
-       fontWeight: 'bold'
-     }
+       fontWeight: 'bold',
+      color: 'white'
+     },
+     safeArea: {
+      backgroundColor: '#002731',
+      
+      width: '100%',
+      position: 'relative',
+      padding: 0,
+      flex: 1
+  },
+  EmergencyContact: {
+   
+    height: '50%',
+    backgroundColor: '#002731',
+    borderWidth: 3,
+    borderColor: '#FEBD08',
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+ 
+  },
+  emergencyView: {
+    height: '20%',
+    flex: 1,
+    bottom: 0,
+    position: 'absolute',
+    width: '100%',
+    alignItems: 'center'
+    
+    
+    
+  },
+  emergencyTitle: {
+    fontSize: 25,
+    margin: 5,
+    fontWeight: 'bold',
+    color: 'white'
+  },
+  GoalDivider: {
+    width: '90%',
+    height: 1,
+    backgroundColor: '#002967', 
+    margin: '2%'
+    
+   
+  },
+  infoDisplaytwo: {
+    position: 'relative',
+    alignSelf: 'center',
+    marginHorizontal: '3%',
+    fontSize: 25,  
+    color: 'white'
+    
+  },
+  Icons: {
+    color: 'white',
+    alignSelf: 'center'
+  },
+  scroll: {
+    width: '100%',
+    height: '37%',
+    position: 'absolute',
+    top: '40%'
+
+  }
 });
 
 export default AboutMeScreen
