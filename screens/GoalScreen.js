@@ -1,25 +1,19 @@
 import React from "react";
-import { useNavigation, useIsFocused } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { useState, useLayoutEffect, useEffect } from "react";
 import {
   View,
   Text,
-  TextInput,
-  Button,
   StyleSheet,
   SafeAreaView,
-  Alert,
   Platform,
   StatusBar,
-  Image,
   TouchableOpacity,
-  TouchableWithoutFeedbackBase,
 } from "react-native";
 import Checkbox from "expo-checkbox";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const GoalScreen = () => {
-  const isFocused = useIsFocused();
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -29,14 +23,12 @@ const GoalScreen = () => {
   });
 
   const [goalCompletion, setGoalCompletion] = useState(null);
-  const [currentGoals, setCurrentGoals] = useState([]);
   const [goalOne, setGoalOne] = useState(false);
   const [goalTwo, setGoalTwo] = useState(false);
   const [goalThree, setGoalThree] = useState(false);
   const [goalRatings, setGoalRatings] = useState(null);
   const [thisWeeksGoals, setThisWeeksGoals] = useState(" ");
   const [time, setTime] = useState(null);
-  const [newGoalsSet, setNewGoalsSet] = useState(null);
   const [gone, setGone] = useState(false);
 
   const setGoals = async () => {
@@ -76,7 +68,7 @@ const GoalScreen = () => {
     const date = new Date();
 
     if (goalRatings != null) {
-      currentGoals.length = 0;
+      let currentGoals = [];
       const keys = Object.keys(goalRatings);
       const loopTime = 3;
       for (let i = 0; i < loopTime; i++) {
@@ -91,7 +83,6 @@ const GoalScreen = () => {
         }
       }
       setThisWeeksGoals(currentGoals);
-      setNewGoalsSet(currentGoals);
 
       try {
         await AsyncStorage.setItem(
