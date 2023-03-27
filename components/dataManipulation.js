@@ -39,11 +39,11 @@ const getStructuredStepsFromData = (data) => {
   return structuredSteps;
 };
 
-console.log('----------------------');
-console.log('Walking data output...');
-console.log('----------------------');
+console.log("----------------------");
+console.log("Walking data output...");
+console.log("----------------------");
 console.log(getStructuredStepsFromData(walkingData));
-console.log('----------------------');
-console.log('Transit data output...');
-console.log('----------------------');
+console.log("----------------------");
+console.log("Transit data output...");
+console.log("----------------------");
 console.log(getStructuredStepsFromData(transitData));

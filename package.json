@@ -55,7 +55,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "gh-pages": "^5.0.0"
+    "gh-pages": "^5.0.0",
+    "prettier": "^2.8.7"
   },
   "private": true
 }

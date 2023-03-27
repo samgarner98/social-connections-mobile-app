@@ -1,42 +1,50 @@
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Image} from 'react-native'
-import React from 'react'
-import * as Contacts from 'expo-contacts'
-import { useEffect, useState, useLayoutEffect } from 'react'
-import { StatusBar } from 'expo-status-bar';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+} from "react-native";
+import React from "react";
+import * as Contacts from "expo-contacts";
+import { useEffect, useState, useLayoutEffect } from "react";
+import { StatusBar } from "expo-status-bar";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
-const GoalPerson = ({route}) => {
+const GoalPerson = ({ route }) => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
-      header: () =>
-        (
-          <SafeAreaView style = {styles.safeArea}>
-          
-          </SafeAreaView>
-        ),
+      header: () => <SafeAreaView style={styles.safeArea}></SafeAreaView>,
       headerShown: true,
-      
     });
   });
   const [error, setError] = useState(undefined);
   const [contacts, setContacts] = useState(undefined);
-  const goalNo = route.params.goalNo
-  const goalRatings = route.params.goalRatings
+  const goalNo = route.params.goalNo;
+  const goalRatings = route.params.goalRatings;
 
   useEffect(() => {
     (async () => {
       const { status } = await Contacts.requestPermissionsAsync();
       if (status === "granted") {
         const { data } = await Contacts.getContactsAsync({
-          fields: [ Contacts.Fields.Birthday, Contacts.Fields.Emails, Contacts.Fields.FirstName, Contacts.Fields.LastName, Contacts.Fields.PhoneNumbers, Contacts.Fields.Image]
+          fields: [
+            Contacts.Fields.Birthday,
+            Contacts.Fields.Emails,
+            Contacts.Fields.FirstName,
+            Contacts.Fields.LastName,
+            Contacts.Fields.PhoneNumbers,
+            Contacts.Fields.Image,
+          ],
         });
 
         if (data.length > 0) {
           setContacts(data);
-          console.log(data)
+          console.log(data);
         } else {
           setError("No contacts found");
         }
@@ -51,167 +59,155 @@ const GoalPerson = ({route}) => {
       return data.map((data, index) => {
         return (
           <View key={index}>
-            <Text style = {styles.contactInfo}>{data.label}: {data[property]}</Text>
+            <Text style={styles.contactInfo}>
+              {data.label}: {data[property]}
+            </Text>
           </View>
-        )
+        );
       });
     }
-  }
+  };
 
   let getContactRows = () => {
     if (contacts !== undefined) {
-      
       return contacts.map((contact, index) => {
         return (
-          
-          <TouchableOpacity key={index} style={styles.contact} onPress = {() => setPerson(contact)}>
-            {contact.imageAvailable ? <Image style = {styles.image} source={{ uri: contact.image.uri }} /> : <Text></Text>}
-            <Text style = {styles.contactInfo}>{contact.firstName} {contact.lastName} </Text>
+          <TouchableOpacity
+            key={index}
+            style={styles.contact}
+            onPress={() => setPerson(contact)}
+          >
+            {contact.imageAvailable ? (
+              <Image style={styles.image} source={{ uri: contact.image.uri }} />
+            ) : (
+              <Text></Text>
+            )}
+            <Text style={styles.contactInfo}>
+              {contact.firstName} {contact.lastName}{" "}
+            </Text>
           </TouchableOpacity>
         );
       });
     } else {
-      return <Text>Awaiting contacts...</Text>
+      return <Text>Awaiting contacts...</Text>;
     }
-  }
+  };
 
   const setPerson = async (contact) => {
-    goalRatings[goalNo].person = contact
-    console.log(goalRatings)
-    console.log(goalRatings[goalNo].person.firstName)
+    goalRatings[goalNo].person = contact;
+    console.log(goalRatings);
+    console.log(goalRatings[goalNo].person.firstName);
     try {
-            
-        await AsyncStorage.setItem('@GoalRatings', JSON.stringify(goalRatings))
-      } catch (e) {
-        console.log(e)
-        console.log("this")
-        // saving error
-      }
-    
-    navigation.navigate("Goals")
-    
-    
-    
+      await AsyncStorage.setItem("@GoalRatings", JSON.stringify(goalRatings));
+    } catch (e) {
+      console.log(e);
+      console.log("this");
+      // saving error
+    }
 
-    
-  }
+    navigation.navigate("Goals");
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-            <TouchableOpacity style = {styles.headerOne} onPress = {() => navigation.navigate('Goals')}>
-          <Text style = {styles.headerTextStyle}>Go Back</Text >
-          </TouchableOpacity>
-          </View>
-          <View style = {styles.line}></View>
-      <ScrollView style = {styles.scroll}>
-        {getContactRows()}
-      </ScrollView>
-      
-    
+        <TouchableOpacity
+          style={styles.headerOne}
+          onPress={() => navigation.navigate("Goals")}
+        >
+          <Text style={styles.headerTextStyle}>Go Back</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.line}></View>
+      <ScrollView style={styles.scroll}>{getContactRows()}</ScrollView>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     flex: 1,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    backgroundColor: '#001C23',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#001C23",
+    alignItems: "center",
+    justifyContent: "center",
   },
   contact: {
-    marginVertical: '4%',
-    backgroundColor: '#002731',
+    marginVertical: "4%",
+    backgroundColor: "#002731",
     borderWidth: 3,
-    width: '100%',
+    width: "100%",
     borderRadius: 25,
-    flexDirection: 'row',
+    flexDirection: "row",
     flex: 1,
     flexWrap: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     padding: 50,
-    borderColor: '#E1A501'
-    
-   
+    borderColor: "#E1A501",
   },
   background: {
-    
-    width: '100%',
-    backgroundColor: '#001C23'
+    width: "100%",
+    backgroundColor: "#001C23",
   },
   header: {
-    width: '100%',
-    height: '13%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-   
-    backgroundColor: '#002731',
-   
-   
+    width: "100%",
+    height: "13%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+
+    backgroundColor: "#002731",
   },
   headerOne: {
-   height: '90%',
-   width: '32%',
-   borderColor: '#D42951',
-   borderWidth: 3,
-   backgroundColor: '#F34E6F',
-   borderRadius: 25,
-   justifyContent: 'center',
-   alignItems: 'center',
-   left: '10%',
-   
- },
- headerTextStyle: {
-  fontSize: 25,
-  fontWeight: 'bold',
-  color: '#FEFEFE'
-},
-line: {
-  width: '100%',
-  height: 1,
-  backgroundColor: '#271700', 
- 
-},
-contactInfo: {
-  flex: 1,
-  fontSize: 30,
-  position: 'relative',
-  color: 'white'
-  
-  
-  
- 
-},
-scroll: {
-  width: '90%',
-  
-  flex: 1,
+    height: "90%",
+    width: "32%",
+    borderColor: "#D42951",
+    borderWidth: 3,
+    backgroundColor: "#F34E6F",
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+    left: "10%",
+  },
+  headerTextStyle: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#FEFEFE",
+  },
+  line: {
+    width: "100%",
+    height: 1,
+    backgroundColor: "#271700",
+  },
+  contactInfo: {
+    flex: 1,
+    fontSize: 30,
+    position: "relative",
+    color: "white",
+  },
+  scroll: {
+    width: "90%",
 
- 
- 
+    flex: 1,
+  },
+  image: {
+    height: "300%",
+    width: "45%",
+    borderRadius: 30,
+    right: 0,
+    position: "absolute",
+    margin: 10,
+  },
+  safeArea: {
+    backgroundColor: "#002731",
 
-},
-image: {
-  height: '300%',
-  width: '45%',
-  borderRadius: 30,
-  right: 0,
-  position: 'absolute',
-  margin: 10
-},
-safeArea: {
- backgroundColor: '#002731',
- 
- width: '100%',
- position: 'relative',
- padding: 0,
- flex: 1
-}
+    width: "100%",
+    position: "relative",
+    padding: 0,
+    flex: 1,
+  },
 });
 
-export default GoalPerson
+export default GoalPerson;
