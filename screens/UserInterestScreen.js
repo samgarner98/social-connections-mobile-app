@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "column",
     flexWrap: "wrap",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS && Platform.OS === "android" ? StatusBar.currentHeight : 0,
     alignItems: "center",
   },
   header: {

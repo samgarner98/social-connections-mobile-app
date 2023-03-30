@@ -17,7 +17,6 @@ import React, { useState, useLayoutEffect, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
-import KeyboardAvoidingView from "react-native/Libraries/Components/Keyboard/KeyboardAvoidingView";
 
 const EditJournalScreen = () => {
   const navigation = useNavigation();
@@ -109,14 +108,12 @@ const EditJournalScreen = () => {
     }
     navigation.navigate("Journal");
   };
-  Keyboard.dismiss();
+ 
 
   return (
     <SafeAreaView style={styles.background}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.keyboard}
-      >
+     
+      
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.headerOne}
@@ -157,7 +154,7 @@ const EditJournalScreen = () => {
           onChangeText={setEntry}
           value={entry}
         />
-      </KeyboardAvoidingView>
+
     </SafeAreaView>
   );
 };
@@ -170,7 +167,7 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     backgroundColor: "#001C23",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS && Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   header: {
     width: "100%",

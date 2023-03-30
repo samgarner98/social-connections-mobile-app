@@ -76,7 +76,7 @@ const MapDisplayScreen = ({ route }) => {
         <MapViewDirections
           origin={coordinates[0]}
           destination={coordinates[1]}
-          apikey={GOOGLE_API_KEY} // insert your API Key here
+          apikey={GOOGLE_API_KEY} 
           strokeWidth={4}
           strokeColor="#111111"
           mode={transport.toUpperCase()}

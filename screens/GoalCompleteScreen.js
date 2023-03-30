@@ -56,11 +56,11 @@ const GoalCompleteScreen = ({ route }) => {
 
     setGoalCompletion(i);
   };
-
+  // set the sound 
   const setAudio = async () => {
     await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
   };
-
+  //play sound of given file path
   const playAudio = async () => {
     const { sound: playbackObject } = await Audio.Sound.createAsync(
       require("../assets/goal-award-sound.mp3"),
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     position: "relative",
     flexWrap: "wrap",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS && Platform.OS === "android" ? StatusBar.currentHeight : 0,
     alignItems: "center",
   },
   View: {

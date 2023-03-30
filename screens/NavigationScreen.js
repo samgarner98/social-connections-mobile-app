@@ -9,16 +9,14 @@ import {
   SafeAreaView,
   Alert,
   StatusBar,
+  Platform
 } from "react-native";
-import MapView from "react-native-maps";
-import MapViewDirections from "react-native-maps-directions";
+
 import { useNavigation } from "@react-navigation/native";
 import * as Location from "expo-location";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faWalking } from "@fortawesome/free-solid-svg-icons";
-import { faCar } from "@fortawesome/free-solid-svg-icons";
 import { faTrainSubway } from "@fortawesome/free-solid-svg-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Navigation = ({ route }) => {
   const navigation = useNavigation();
@@ -37,10 +35,10 @@ const Navigation = ({ route }) => {
   const [directionsData, setDirectionsData] = useState(null);
   const [useLocation, setUseLocation] = useState(null);
   const [transport, setTransport] = useState(null);
-  const [thisWeeksGoals, setThisWeeksGoals] = useState(null);
   const [confirm, setConfirm] = useState(null);
 
   const fetchUrl = async () => {
+    //Once user confirms navigation
     setConfirm(true);
     const url = `https://maps.googleapis.com/maps/api/directions/json?destination=${DestinationAddress.replace(
       /\s/g,
@@ -53,6 +51,7 @@ const Navigation = ({ route }) => {
     try {
       const response = await fetch(url);
       const jsonData = await response.json();
+      //Take relevant fields from recieved data
       setDirectionsData(jsonData);
     } catch (e) {
       setError(e);
@@ -318,7 +317,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     position: "relative",
     flexWrap: "wrap",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS && Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   input: {
     height: "10%",

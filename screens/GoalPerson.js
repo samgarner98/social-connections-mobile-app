@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  Platform
 } from "react-native";
 import React from "react";
 import * as Contacts from "expo-contacts";
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     flex: 1,
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS && Platform.OS === "android" ? StatusBar.currentHeight : 0,
     backgroundColor: "#001C23",
     alignItems: "center",
     justifyContent: "center",

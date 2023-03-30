@@ -428,7 +428,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     position: "absolute",
     flexWrap: "wrap",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS && Platform.OS === "android" ? StatusBar.currentHeight : 0,
     alignItems: "center",
   },
   header: {

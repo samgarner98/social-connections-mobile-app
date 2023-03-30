@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     backgroundColor: "#001C23",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS && Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   header: {
     width: "100%",

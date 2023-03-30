@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-around",
     flexWrap: "wrap",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS && Platform.OS === "android" ? StatusBar.currentHeight : 0,
     alignItems: "center",
   },
   header: {

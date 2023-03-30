@@ -10,6 +10,7 @@ import {
   ScrollView,
   Checkbox,
   StatusBar,
+  Platform,
 } from "react-native";
 import MapView from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
@@ -186,7 +187,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     position: "relative",
     flexWrap: "wrap",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS && Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   line: {
     width: "100%",

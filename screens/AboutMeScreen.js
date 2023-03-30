@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     position: "relative",
     flexWrap: "wrap",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS && Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   header: {
     width: "100%",

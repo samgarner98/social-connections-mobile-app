@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   StatusBar,
+  Platform,
 } from "react-native";
 import React, { useLayoutEffect, useEffect, useState } from "react";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     position: "relative",
     flexWrap: "wrap",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS && Platform.OS && Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   containerOne: {
     height: "30%",

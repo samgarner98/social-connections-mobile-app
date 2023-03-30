@@ -106,10 +106,8 @@ const EditAboutMeScreen = () => {
         setImage(imageToSave);
       } catch (e) {
         console.log(e);
-        console.log("this");
         // saving error
       }
-      console.log(image);
     }
   };
 
@@ -126,6 +124,7 @@ const EditAboutMeScreen = () => {
     if (name == null) {
       getInitialData();
     }
+    
 
     if (keyboard == false) {
       Keyboard.dismiss();
@@ -216,7 +215,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     position: "relative",
     flexWrap: "wrap",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS && Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   containerOne: {
     height: "80%",
@@ -229,7 +228,7 @@ const styles = StyleSheet.create({
     top: "0%",
     justifyContent: "center",
     left: "5%",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS && Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   containerTwo: {
     height: "5%",
@@ -243,7 +242,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     right: "0%",
     margin: "2%",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS && Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   TextStyle: {
     position: "absolute",

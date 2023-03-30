@@ -72,7 +72,7 @@ const ViewContactScreen = ({ route }) => {
       aspect: [4, 3],
       quality: 1,
     });
-
+    // If data is retrieved, declare a const with necessary fields
     if (!result.canceled) {
       const imageToSave = {
         height: result.assets[0].height,
@@ -80,8 +80,10 @@ const ViewContactScreen = ({ route }) => {
         width: result.assets[0].width,
       };
 
+      //update state variable 
       contact.image = imageToSave;
       contact.imageAvailable = true;
+      //update contact with new image
       await Contacts.updateContactAsync(contact);
       setImage(result.assets[0].uri);
       setImageAdded(true);
@@ -155,7 +157,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     position: "relative",
     flexWrap: "wrap",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS && Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   header: {
     width: "100%",
