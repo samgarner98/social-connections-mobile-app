@@ -1,0 +1,13 @@
+There are different ways to run the app. 
+
+1. Install Node.js 
+install expo using 'npm install expo-cli --global' in terminal while in project directory 
+'npm i' should download all necessary dependencies (in terminal while in project directory )
+use 'expo start' to run the app (in terminal while in project directory )
+downloading the expo go app to your phone will allow you to use the app on your phone
+you must be connected to the same wifi as the device 
+
+2. use online simulator with link:
+https://appetize.io/app/yazzlg6e3r2pizex3g32idtk2e?device=iphone12&osVersion=14.5&scale=75
+
+ (this way is less responsive and very laggy but will have no hassle setting up)
